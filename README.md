@@ -11,8 +11,6 @@ Generate lofi music tracks using Meta MusicGen on Apple Silicon (MPS).
 | `model/gen_long_lofi.py` | Generate 3-min track (6×30s segments + ffmpeg crossfade) |
 | `model/gen_music.py` | Custom prompt generation |
 | `model/gen_continue.py` | Attempt audio continuation (limited by HF transformers API) |
-| `model/mubert_gen.py` | Mubert B2B API generator (needs valid license) |
-
 ## Audio Samples
 
 - `model/lofi_tracks/lofi_3min.wav` — 3-minute generated lofi track
@@ -23,9 +21,6 @@ Generate lofi music tracks using Meta MusicGen on Apple Silicon (MPS).
 uv venv .venv
 source .venv/bin/activate
 uv pip install torch transformers scipy soundfile sounddevice
-
-# For Mubert API (optional)
-uv pip install httpx sentence-transformers
 ```
 
 ## Hardware
