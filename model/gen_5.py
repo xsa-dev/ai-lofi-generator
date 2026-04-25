@@ -25,7 +25,7 @@ prompts = [
     "focused lofi study beats with gentle guitar chords and calm drum pattern",
 ]
 
-out_dir = "/Users/alxy/Desktop/1PROJ/MiniMaxSearch/lofi_tracks"
+out_dir = os.path.join(os.path.dirname(__file__), "lofi_tracks")
 os.makedirs(out_dir, exist_ok=True)
 
 for i, prompt in enumerate(prompts, 1):

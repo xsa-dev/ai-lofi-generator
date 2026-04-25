@@ -29,7 +29,7 @@ with torch.no_grad():
     audio = model.generate(**inputs, do_sample=True, guidance_scale=3.0, max_new_tokens=MAX_TOKENS)
 
 audio_np = audio[0, 0].cpu().numpy()
-path = "/Users/alxy/Desktop/1PROJ/MiniMaxSearch/lofi_tracks/lofi_long_test.wav"
+path = os.path.join(os.path.dirname(__file__), "lofi_tracks", "lofi_long_test.wav")
 wavfile.write(path, 32000, audio_np)
 dur = len(audio_np) / 32000
 mb = os.path.getsize(path) / 1024 / 1024

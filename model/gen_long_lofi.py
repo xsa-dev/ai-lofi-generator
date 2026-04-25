@@ -10,7 +10,7 @@ from transformers import AutoProcessor, MusicgenForConditionalGeneration
 import scipy.io.wavfile as wavfile
 
 DEVICE = "mps" if torch.backends.mps.is_available() else "cpu"
-OUT_DIR = "/Users/alxy/Desktop/1PROJ/MiniMaxSearch/lofi_tracks"
+OUT_DIR = os.path.join(os.path.dirname(__file__), "lofi_tracks")
 PROMPT = ("chill lofi hip hop beats with vinyl crackle and rain sounds, "
           "soft piano chords, dusty drum breaks, warm double bass, jazz guitar, "
           "relaxed study music, cozy coffee shop atmosphere, 85 bpm")

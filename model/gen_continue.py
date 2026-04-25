@@ -24,7 +24,7 @@ print(f"Prompt: {prompt}\n")
 inputs = processor(text=[prompt], padding=True, return_tensors="pt")
 inputs = {k: v.to(device) for k, v in inputs.items()}
 
-output_dir = "/Users/alxy/Desktop/1PROJ/MiniMaxSearch/lofi_tracks"
+output_dir = os.path.join(os.path.dirname(__file__), "lofi_tracks")
 os.makedirs(output_dir, exist_ok=True)
 
 # Generate first segment (30s)
