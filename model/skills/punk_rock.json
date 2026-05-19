@@ -1,0 +1,90 @@
+{
+  "name": "punk_rock",
+  "bpm_ranges": [
+    [140, 160],
+    [150, 170],
+    [160, 180],
+    [170, 190],
+    [180, 200],
+    [200, 220]
+  ],
+  "moods": [
+    "angry and rebellious",
+    "raw and energetic",
+    "frantic and chaotic",
+    "defiant and loud",
+    "aggressive and fast",
+    "sarcastic and irreverent",
+    "desperate and intense",
+    "youthful and reckless"
+  ],
+  "genres": [
+    "punk rock instrumental",
+    "fast punk instrumental",
+    "garage punk instrumental",
+    "street punk instrumental",
+    "pop punk instrumental",
+    "hardcore punk instrumental",
+    "skate punk instrumental",
+    "power pop punk instrumental"
+  ],
+  "instruments": [
+    "buzzing power chords with distortion",
+    "fast palm-muted guitar riffs",
+    "tremolo picking guitar lines",
+    "angular guitar stabs",
+    "raw distorted bass line",
+    "single-coil guitar with overdrive",
+    "aggressive guitar harmonics",
+    "downstroke guitar rhythm"
+  ],
+  "drums": [
+    "fast tempo drum beat with relentless snare",
+    "two-tone skank beat with punchy kick",
+    "double-time hardcore punk drumming",
+    "driving four-on-the-floor punk beat",
+    "aggressive crash-heavy punk drumming",
+    "frantic d-beat punk pattern",
+    "fast hi-hat roll punk groove",
+    "thunderous kick with snapping snare"
+  ],
+  "textures": [
+    "raw unpolished garage sound",
+    "gritty three-chord distortion",
+    "lo-fi recording warmth",
+    "harsh overdriven guitar tone",
+    "dry aggressive production",
+    "natural room noise and feedback",
+    "punk vinyl crackle layer",
+    "aggressive clipping on guitar"
+  ],
+  "ambiences": [
+    "crowded basement show reverb",
+    "street noise bleeding through walls",
+    "empty alley echo",
+    "garage band practice space",
+    "punk club buzz and chatter",
+    "graffiti-covered underpass",
+    "late-night city sidewalk",
+    "vandalized storefront atmosphere"
+  ],
+  "arrangements": [
+    "fast intro, verse, chorus, verse, chorus, break, outro",
+    "three-chord structure, no bridge, maximum energy",
+    "short sharp bursts of speed",
+    "build from calm to chaotic",
+    "stop-start punk dynamics",
+    "repetitive driving riff structure",
+    "fast breakdowns and tempo shifts"
+  ],
+  "extras": [
+    "youth crew punk energy",
+    "street credibility intact",
+    "anti-establishment attitude",
+    "maximum肾上腺素 surge",
+    "fist-pumping anthem potential",
+    "short and sweet aggression",
+    "raw recorded feel",
+    "live show energy"
+  ]
+}
