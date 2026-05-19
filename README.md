@@ -6,7 +6,7 @@ Generate instrumental music tracks via MiniMax Music 2.6 API.
 
 | File | Description |
 |------|-------------|
-| `model/gen_minimax_lofi.py` | Random generation with presets: `lofi` and `hiphop` |
+| `model/gen_minimax_lofi.py` | Random generation with built-in skills: `lofi`, `hiphop` + custom JSON skills |
 
 ## Usage
 
@@ -16,27 +16,28 @@ export MINIMAX_API_KEY='...'
 # default: 5 lofi tracks
 python model/gen_minimax_lofi.py
 
-# 10 hiphop tracks
+# 10 hiphop tracks (backward-compatible flag)
 python model/gen_minimax_lofi.py 10 --style hiphop
 
-# explicit lofi
-python model/gen_minimax_lofi.py 8 --style lofi
+# same through the new feature flag
+python model/gen_minimax_lofi.py 10 --skill hiphop
+
+# custom skill from model/skills/*.json
+python model/gen_minimax_lofi.py 6 --skill hiphop_dark
 ```
+
+## Custom skills feature
+
+You can add your own generation skill preset as JSON files in `model/skills/`.
+
+- Each file should contain: `bpm_ranges`, `moods`, `genres`, `instruments`, `drums`, `textures`, `ambiences`, `arrangements`, `extras`
+- Optional `name` overrides filename as skill name
+- Example included: `model/skills/hiphop_dark.json`
 
 Output files are saved to:
 - `model/lofi_tracks/*.mp3`
 - `model/lofi_tracks/*.meta.json` (prompt saved immediately for every track)
 - `model/lofi_tracks/prompts.log`
-
-## Deprecated scripts (planned for deletion)
-
-These scripts are deprecated and no longer part of the current flow. They will be deleted:
-
-- `model/gen_test.py`
-- `model/gen_5.py`
-- `model/gen_long_lofi.py`
-- `model/gen_music.py`
-- `model/gen_continue.py`
 
 ## Notes
 

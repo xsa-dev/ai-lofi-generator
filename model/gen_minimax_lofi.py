@@ -13,11 +13,13 @@ import uuid
 from pathlib import Path
 from typing import Optional
 
+
 API_KEY = os.environ.get("MINIMAX_API_KEY", "")
 BASE_URL = "https://api.minimax.io/v1/music_generation"
 
 OUT_DIR = Path(__file__).parent / "lofi_tracks"
 OUT_DIR.mkdir(exist_ok=True)
+SKILLS_DIR = Path(__file__).parent / "skills"
 
 STYLE_POOLS = {
     "lofi": {
@@ -127,10 +129,34 @@ STYLE_POOLS = {
 }
 
 
-def generate_random_prompt(style: str) -> str:
-    """Generate a random prompt from selected style pool."""
-    pools = STYLE_POOLS[style]
+def load_custom_skills() -> dict:
+    """Load optional skill presets from model/skills/*.json."""
+    custom = {}
+    if not SKILLS_DIR.exists():
+        return custom
 
+    required = {
+        "bpm_ranges", "moods", "genres", "instruments", "drums",
+        "textures", "ambiences", "arrangements", "extras",
+    }
+
+    for path in sorted(SKILLS_DIR.glob("*.json")):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+            skill_name = data.get("name") or path.stem
+            missing = sorted(required - set(data.keys()))
+            if missing:
+                print(f"[warn] Skip {path.name}: missing keys {', '.join(missing)}")
+                continue
+            custom[skill_name] = {k: data[k] for k in required}
+        except Exception as exc:
+            print(f"[warn] Skip {path.name}: {exc}")
+
+    return custom
+
+
+def generate_random_prompt(style: str, pools: dict) -> str:
+    """Generate a random prompt from selected style pool."""
     bpm = random.randint(*random.choice(pools["bpm_ranges"]))
     mood = random.choice(pools["moods"])
     genre = random.choice(pools["genres"])
@@ -231,10 +257,14 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Generate random tracks via MiniMax Music 2.6")
     parser.add_argument("count", nargs="?", type=int, default=5, help="Number of tracks to generate")
     parser.add_argument(
-        "--style",
-        choices=sorted(STYLE_POOLS.keys()),
+        "--skill",
         default="lofi",
-        help="Prompt style preset (default: lofi)",
+        help="Skill preset name (built-in: lofi, hiphop; custom: model/skills/*.json)",
+    )
+    parser.add_argument(
+        "--style",
+        dest="skill",
+        help="Backward-compatible alias for --skill",
     )
     return parser.parse_args()
 
@@ -245,9 +275,17 @@ def main():
         print("  export MINIMAX_API_KEY='...'")
         sys.exit(1)
 
+    all_skills = dict(STYLE_POOLS)
+    all_skills.update(load_custom_skills())
+
     args = parse_args()
     count = args.count
-    style = args.style
+    style = args.skill
+
+    if style not in all_skills:
+        print(f"Error: unknown skill '{style}'")
+        print(f"Available skills: {', '.join(sorted(all_skills.keys()))}")
+        sys.exit(2)
 
     print(f"Generating {count} random '{style}' tracks via MiniMax Music 2.6 API")
     print(f"Output: {OUT_DIR}\n")
@@ -257,7 +295,7 @@ def main():
     used_prompts = []
 
     for i in range(1, count + 1):
-        prompt = generate_random_prompt(style)
+        prompt = generate_random_prompt(style, all_skills[style])
         used_prompts.append(prompt)
 
         path = generate_track(prompt, i, style)
