@@ -373,7 +373,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--skill",
         default="lofi",
-        help="Skill preset name (built-in: lofi, hiphop, rock, metal; custom: model/skills/*.json)",
+        help="Skill preset name (built-in: lofi, hiphop; custom: model/skills/*.json)",
     )
     parser.add_argument(
         "--style",
@@ -396,11 +396,6 @@ def main():
     if not API_KEY:
         print("Error: MINIMAX_API_KEY not set")
         print("  export MINIMAX_API_KEY='...'")
-        sys.exit(1)
-
-    if not check_connectivity():
-        print("Error: api.minimax.io unreachable — VPN may be blocking it")
-        print("  Disable VPN and try again")
         sys.exit(1)
 
     all_skills = dict(STYLE_POOLS)
