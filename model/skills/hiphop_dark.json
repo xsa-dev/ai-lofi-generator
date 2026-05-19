@@ -1,0 +1,39 @@
+{
+  "name": "hiphop_dark",
+  "bpm_ranges": [[88, 98], [92, 104]],
+  "moods": [
+    "dark and tense",
+    "grim and cinematic",
+    "aggressive and focused"
+  ],
+  "genres": [
+    "dark hip hop instrumental",
+    "cinematic trap rap beat"
+  ],
+  "instruments": [
+    "distorted 808 bass",
+    "ominous bell motif",
+    "minor-key piano stabs"
+  ],
+  "drums": [
+    "heavy kick-snare groove with sharp hats",
+    "trap hats with occasional rolls and punchy claps"
+  ],
+  "textures": [
+    "gritty tape saturation",
+    "dark room reverb"
+  ],
+  "ambiences": [
+    "night street ambience",
+    "empty warehouse tail"
+  ],
+  "arrangements": [
+    "intro, verse, hook, verse, outro",
+    "8-bar loop with drop and variation"
+  ],
+  "extras": [
+    "head-nod groove",
+    "strong transient drums",
+    "underground mixtape energy"
+  ]
+}

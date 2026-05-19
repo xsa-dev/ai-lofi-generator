@@ -6,5 +6,6 @@ model/lofi_tracks/
 *.wav
 *.mp3
 *.json
+!model/skills/*.json
 *.log
 log.txt
