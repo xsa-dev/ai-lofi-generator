@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Generate random instrumental tracks with MiniMax Music 2.6 (lofi/hiphop presets)."""
+"""Generate random instrumental tracks with MiniMax Music 2.6 (multi-genre presets: lofi, hiphop, rock, metal, or custom)."""
 
 import argparse
 import json
 import os
 import random
+import socket
 import sys
 import time
 import urllib.error
@@ -124,6 +125,119 @@ STYLE_POOLS = {
         "extras": [
             "radio-ready low end", "head-nod groove", "club-ready punch", "underground mixtape energy",
             "clean instrumental for rap vocals", "strong transient drums",
+        ],
+    },
+    "rock": {
+        "bpm_ranges": [
+            (100, 120), (110, 130), (120, 140), (130, 150), (140, 160), (150, 170), (160, 180), (170, 190),
+        ],
+        "moods": [
+            "energetic and powerful", "raw and gritty", "melodic and anthemic",
+            "dark and intense", "uplifting and triumphant", "nostalgic and rebellious",
+            "brooding and heavy", "passionate and emotional", "carefree and defiant",
+            "epic and cinematic", "delicate and introspective", "fierce and aggressive",
+        ],
+        "genres": [
+            "rock instrumental", "guitar-driven rock instrumental", "alternative rock instrumental",
+            "indie rock instrumental", "hard rock instrumental", "classic rock instrumental",
+            "psychedelic rock instrumental", "post-rock instrumental", "instrumental rock anthem",
+            "melodic rock instrumental", "blues rock instrumental", "punk rock instrumental",
+        ],
+        "instruments": [
+            "distorted electric guitar riff", "dual harmonized guitar leads",
+            "clean fingerpicked guitar arpeggios", "power chords with palm muting",
+            "bluesy guitar solo", "sliding guitar bends", "acoustic guitar strumming",
+            "layered electric guitar chords", "tremolo picked guitar", "wah pedal guitar",
+        ],
+        "drums": [
+            "driving rock drum beat with crashes on the backbeat",
+            "hard-hitting double bass kick pattern",
+            "steady four-on-the-floor with fills on snare",
+            "aggressive punk rock drumming with fast hi-hats",
+            "groovy rock beat with syncopated snare hits",
+            "double-time feel with tom fills",
+            "crash-heavy rock beat for maximum impact",
+        ],
+        "textures": [
+            "warm tube amplifier saturation", "raw and unpolished guitar tone",
+            "vintage analog warmth", "thick wall of guitars",
+            "clean production with natural room reverb", "lo-fi garage rock aesthetic",
+            " polished studio sheen", "gritty overdriven distortion",
+        ],
+        "ambiences": [
+            "stadium crowd ambience in the distance", "empty concert hall reverb",
+            "desert highway open air atmosphere", "rain on a tin roof",
+            "crackling fireplace ambience", "storm approaching",
+            "city lights at night", "mountain wind howling",
+        ],
+        "arrangements": [
+            "verse, chorus, bridge, solo, chorus, outro",
+            "extended guitar intro building to a climax",
+            "minimal verse with explosive chorus",
+            "epic build from quiet to loud dynamics",
+            "tension and release throughout",
+            "free-form structure with improvisational feel",
+        ],
+        "extras": [
+            "headbang-ready groove", "radio rock polish", "mixtape energy",
+            "shout-along anthem feel", "cinematic soundtrack quality",
+            "nostalgic 70s rock revival", "modern alternative edge",
+        ],
+    },
+    "metal": {
+        "bpm_ranges": [
+            (100, 130), (120, 150), (140, 170), (160, 190), (180, 210), (200, 240),
+        ],
+        "moods": [
+            "savage and brutal", "dark and apocalyptic", "technical and precise",
+            "epic and majestic", "menacing and ominous", "fierce and relentless",
+            "cold and mechanical", "haughty and aggressive", "storming and relentless",
+            "brooding and crushing", "blazing and fast", "cathartic and intense",
+        ],
+        "genres": [
+            "metal instrumental", "heavy metal instrumental", "death metal instrumental",
+            "doom metal instrumental", "black metal instrumental", "thrash metal instrumental",
+            "progressive metal instrumental", "metalcore instrumental", "instrumental metal anthem",
+            "instrumental metal riffage", "djent instrumental", "symphonic metal instrumental",
+        ],
+        "instruments": [
+            "downtuned heavy guitar riffs", "sweeping guitar arpeggios",
+            "blast beat drumming", "guttural bass rumble",
+            "pinch harmonic guitar leads", "tremolo picking patterns",
+            "polyrhythmic guitar work", "low-tuned six-string breakdowns",
+        ],
+        "drums": [
+            "non-stop blast beats with thunderous kick drum",
+            "technical blast beat with precise fills",
+            "slow crushing doom beats with cymbal swells",
+            "double bass pedal relentless assault",
+            "crust punk d-beat pattern",
+            "syncopated djent-style drumming",
+        ],
+        "textures": [
+            "compressed wall of guitars", "raw recording with natural distortion",
+            "cold digital precision", "grimy analog saturation",
+            "dark reverb-drenched guitars", "thin jagged tone",
+            "thick layering of multiple guitar tracks", "clean production cutting through",
+        ],
+        "ambiences": [
+            "empty dark hall ambience", "distant thunder and rain",
+            "wind howling through ruins", "fire crackling",
+            "underground bunker atmosphere", "void-like emptiness",
+            "howling wolves in the distance", "church bells in decay",
+        ],
+        "arrangements": [
+            "riff, breakdown, solo, riff",
+            "slow build into crushing climax",
+            "technical precision with dynamic shifts",
+            "relentless attack throughout",
+            "ambient intro into full assault",
+            "multiple tempo changes with progressive structure",
+        ],
+        "extras": [
+            "maximum headbang factor", "mosh-pit ready", "extended guitar solo showcase",
+            "negative nostalgia", "soundtrack-quality composition",
+            "brutal breakdown showcase", "technical wankery",
         ],
     },
 }
@@ -267,6 +381,15 @@ def parse_args() -> argparse.Namespace:
         help="Backward-compatible alias for --skill",
     )
     return parser.parse_args()
+
+
+def check_connectivity(timeout: int = 5) -> bool:
+    """Check if api.minimax.io is reachable (fails fast under VPN)."""
+    try:
+        socket.create_connection(("api.minimax.io", 443), timeout=timeout)
+        return True
+    except OSError:
+        return False
 
 
 def main():

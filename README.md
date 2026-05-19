@@ -1,6 +1,6 @@
-# AI Lofi / HipHop Generator
+# AI Music Generator (Multi-Genre)
 
-Generate instrumental music tracks via MiniMax Music 2.6 API.
+Generate instrumental music tracks via MiniMax Music 2.6 API. Supports multiple built-in genres (lofi, hiphop, rock, metal) plus unlimited custom JSON presets.
 
 ## Active script
 
@@ -13,7 +13,7 @@ Generate instrumental music tracks via MiniMax Music 2.6 API.
 ```bash
 export MINIMAX_API_KEY='...'
 
-# default: 5 lofi tracks
+# 5 tracks (default: lofi)
 python model/gen_minimax_lofi.py
 
 # 10 hiphop tracks (backward-compatible flag)
@@ -36,12 +36,9 @@ You can add your own generation skill preset as JSON files in `model/skills/`.
 
 Output files are saved to:
 - `model/lofi_tracks/*.mp3`
-- `model/lofi_tracks/*.meta.json` (prompt saved immediately for every track)
+- `model/lofi_tracks/*.meta.json` — prompt saved immediately per track
 - `model/lofi_tracks/prompts.log`
 
 ## Notes
 
-- Uses MiniMax endpoint: `https://api.minimax.io/v1/music_generation`
-- Model: `music-2.6`
-- `is_instrumental = true`
-- MP3 settings: 44.1kHz, 256kbps
+~6 requests/minute. Cap at ~6-10 tracks per 10-minute window.
