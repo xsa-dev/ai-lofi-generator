@@ -1,44 +1,46 @@
-# AI Lofi Generator
+# AI Lofi / HipHop Generator
 
-Generate lofi music tracks using Meta MusicGen on Apple Silicon (MPS).
+Generate instrumental music tracks via MiniMax Music 2.6 API.
 
-## Scripts
+## Active script
 
 | File | Description |
 |------|-------------|
-| `model/gen_test.py` | Generate single 30s lofi track (testing) |
-| `model/gen_5.py` | Generate 5 lofi tracks (30s each) |
-| `model/gen_long_lofi.py` | Generate 3-min track (6×30s segments + ffmpeg crossfade) |
-| `model/gen_music.py` | Custom prompt generation |
-| `model/gen_continue.py` | Attempt audio continuation (limited by HF transformers API) |
-## Audio Samples
+| `model/gen_minimax_lofi.py` | Random generation with presets: `lofi` and `hiphop` |
 
-- `model/lofi_tracks/lofi_3min.wav` — 3-minute generated lofi track
-
-## Setup
+## Usage
 
 ```bash
-uv venv .venv
-source .venv/bin/activate
-uv pip install torch transformers scipy soundfile sounddevice
+export MINIMAX_API_KEY='...'
+
+# default: 5 lofi tracks
+python model/gen_minimax_lofi.py
+
+# 10 hiphop tracks
+python model/gen_minimax_lofi.py 10 --style hiphop
+
+# explicit lofi
+python model/gen_minimax_lofi.py 8 --style lofi
 ```
 
-## Hardware
+Output files are saved to:
+- `model/lofi_tracks/*.mp3`
+- `model/lofi_tracks/*.meta.json` (prompt saved immediately for every track)
+- `model/lofi_tracks/prompts.log`
 
-- Apple M1 Max 32GB
-- Uses MPS (Metal Performance Shaders) for GPU acceleration
-- ~5 min per 30s segment on MusicGen-medium (1.5B params)
+## Deprecated scripts (planned for deletion)
 
-## Lofi Prompts Used
+These scripts are deprecated and no longer part of the current flow. They will be deleted:
 
-- "lofi hip hop vinyl crackle rain outside window soft piano dusty drums"
-- "lofi chillout soft piano with dusty drums and vinyl crackle"
-- "sunset sax gentle lofi"
-- "lofi bell melody rain ambient"
-- "lofi hip hop gentle guitar rain"
+- `model/gen_test.py`
+- `model/gen_5.py`
+- `model/gen_long_lofi.py`
+- `model/gen_music.py`
+- `model/gen_continue.py`
 
 ## Notes
 
-- MusicGen generates max 30s per call via HuggingFace transformers
-- Longer tracks made by generating segments + crossfading with ffmpeg
-- Original Meta audiocraft doesn't build on M1 Max (PyAV compilation fails)
+- Uses MiniMax endpoint: `https://api.minimax.io/v1/music_generation`
+- Model: `music-2.6`
+- `is_instrumental = true`
+- MP3 settings: 44.1kHz, 256kbps

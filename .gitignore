@@ -2,6 +2,9 @@
 __pycache__
 *.pyc
 .venv/
+model/lofi_tracks/
 *.wav
 *.mp3
+*.json
+*.log
 log.txt
